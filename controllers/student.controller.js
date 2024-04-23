@@ -62,3 +62,17 @@ exports.findAll = (req, res) => {
       });
     });
 };
+
+// Find all registered Students
+exports.findAllRegistered = (req, res) => {
+  Student.find({ registered: true })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving students.",
+      });
+    });
+};
