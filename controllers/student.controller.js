@@ -29,6 +29,22 @@ exports.create = (req, res) => {
     });
 };
 
+// Find a single Student with an id
+exports.findOne = (req, res) => {
+  const id = req.params.id;
+  Student.findById(id)
+    .then(data => {
+      if (!data)
+        res.status(404).send({ message: "Not found Student with id " + id });
+      else res.send(data);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving Student with id=" + id });
+    });
+};
+
 // Retrieve all Students from the database.
 exports.findAll = (req, res) => {
   const name = req.query.name;
@@ -46,18 +62,3 @@ exports.findAll = (req, res) => {
       });
     });
 };
-
-// Find all registered Students
-exports.findAllRegistered = (req, res) => {
-  Student.find({ registered: true })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving students.",
-      });
-    });
-};
-
